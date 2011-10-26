@@ -1,9 +1,9 @@
 ###icluster
 
-Works on v0.5.9+
-
 Compare to multi-node or node-cluster ,it's very simple/fast and easy to
 mantain/hack ,so you could write you own cluster based on it.
+
+Works on v0.5.9+
 
 It supports two types :
 
