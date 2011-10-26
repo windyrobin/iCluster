@@ -1,4 +1,4 @@
-###icluster
+###iCluster
 
 Compare to multi-node or node-cluster ,it's very simple/fast and easy to
 mantain/hack ,so you could write you own cluster based on it.
