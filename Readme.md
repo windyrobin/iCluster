@@ -5,7 +5,7 @@ mantain/hack ,so you could write you own cluster based on it.
 
 Works on v0.5.9+
 
-It supports two types :
+It supports two types for multi-process:
 
 - multi worker processes listen on the same port
 - the master receives the incoming sockets and distributes them to workers
@@ -24,6 +24,17 @@ server = http.createServer(function(req, res){
 });
 ```
 
+
+####How to use 
+
+*download the source 
+* node master.js
+* curl localhost:3458/
+
+or you could test the tcpMaster:
+* node tcpMaster.js
+* curl localhost:3458/
+ 
 just enjoy it
 
 weibo : http://weibo.com/windyrobin
