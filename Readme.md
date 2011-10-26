@@ -3,11 +3,11 @@
 Compare to multi-node or node-cluster ,it's very simple/fast and easy to
 mantain/hack ,so you could write you own cluster based on it.
 
-Works on v0.5.9+
+Working on v0.5.9+
 
 ####Features
 
-It supports two types for multi-process:
+It supports two strategies for multi-process:
 
 - multi worker processes listen on the same port
 - the master receives the incoming sockets and distributes them to workers
