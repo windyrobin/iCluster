@@ -5,10 +5,13 @@ mantain/hack ,so you could write you own cluster based on it.
 
 Works on v0.5.9+
 
+####Features
 It supports two types for multi-process:
 
 - multi worker processes listen on the same port
 - the master receives the incoming sockets and distributes them to workers
+
+####Performance
 
 In my test machine , CPU X 5 ,it could reach 10K qps for task like below:
 
