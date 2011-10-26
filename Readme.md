@@ -31,14 +31,17 @@ server = http.createServer(function(req, res){
 
 ####How to use 
 
-+download the source 
-+ node master.js
-+ curl localhost:3458/
+ download the source
+ 
+    $ node master.js
+    $ curl localhost:3458/
 
 or you could test the tcpMaster:
-+ node tcpMaster.js
-+ curl localhost:3458/
- 
+
+
+    $ node tcpMaster.js 
+    $ curl localhost:3458/
+
 just enjoy it
 
 weibo : http://weibo.com/windyrobin
