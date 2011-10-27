@@ -27,7 +27,7 @@ function about_exit(){
 }
 
 function onhandle(self, handle){
-  if(self.maxConnections && self.Connections >= self.maxConnections){
+  if(self.maxConnections && self.connections >= self.maxConnections){
     handle.close();
     return;
   }
