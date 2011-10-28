@@ -48,7 +48,8 @@ function about_exit(){
   }, GRACE_EXIT_TIME);
 }
 
-const ADDRESS = "127.0.0.1";
+//const ADDRESS = "127.0.0.1";
+const ADDRESS = "0.0.0.0";
 const BACK_LOG = 128;
 
 function onconnection(handle){
