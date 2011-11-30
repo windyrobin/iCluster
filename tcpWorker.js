@@ -1,5 +1,5 @@
-var net = require("net");
-var http = require("http");
+var net = require('net');
+var http = require('http');
 
 function output(str){
   console.log(str);
@@ -8,19 +8,19 @@ function output(str){
 function main(fn){
   fn();
 }
-const GRACE_EXIT_TIME = 1500;
+var GRACE_EXIT_TIME = 1500;
 
 var server = null;
-var exit_timer = null;
-var child_req_count = 0;
+var exitTimer = null;
+var childReqCount = 0;
 
-function about_exit(){
-  if(exit_timer) return;
+function aboutExit(){
+  if(exitTimer) return;
 
   //server.close();
-  exit_timer = setTimeout(function(){
-    output("worker will exit...");
-    output("child req total : " + child_req_count);
+  exitTimer = setTimeout(function(){
+    output('worker will exit...');
+    output('child req total : ' + childReqCount);
 
     process.exit(0);
   },GRACE_EXIT_TIME);
@@ -39,32 +39,33 @@ function onhandle(self, handle){
   socket.resume();
   self.connections++;
   socket.server = self;
-  self.emit("connection", socket);
-  socket.emit("connect");
+  self.emit('connection', socket);
+  socket.emit('connect');
+  //output('get a connection');
 }
 
 void main(function(){
-  process.on("SIGINT"  ,about_exit)
-  process.on("SIGTERM" ,about_exit)
+  process.on('SIGINT'  ,aboutExit)
+  process.on('SIGTERM' ,aboutExit)
 
   server = http.createServer(function(req, res){
     var r, i;
     for(i=0; i<10000; i++){
       r = Math.random();
     }
-    res.writeHead(200 ,{"content-type" : "text/html"});
-    res.end("hello,world");
-    child_req_count++;
+    res.writeHead(200 ,{'content-type' : 'text/html'});
+    res.end('hello,world');
+    childReqCount++;
   });
 
-  process.on("message",function(m ,handle){
+  process.on('message',function(m ,handle){
     if(handle){
       onhandle(server, handle);
     }
-    if(m.status == "update"){
-      process.send({"status" : process.memoryUsage()});
+    if(m.status == 'update'){
+      process.send({'status' : process.memoryUsage()});
     }
   });
 
-  output("worker is running...");
+  output('worker is running...');
 });

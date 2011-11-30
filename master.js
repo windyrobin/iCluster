@@ -1,11 +1,11 @@
-var net = require("net");
-var cp = require("child_process");
+var net = require('net');
+var cp = require('child_process');
 
-const PORT = 3458;
-const WORKER_NUMBER = 5;
-const GRACE_EXIT_TIME = 2000;//2s
-const WORKER_PATH = __dirname + "/worker.js";
-const WORKER_HEART_BEAT = 10*1000;//10s, update memory ,etc
+var PORT = 3458;
+var WORKER_NUMBER = 5;
+var GRACE_EXIT_TIME = 2000;//2s
+var WORKER_PATH = __dirname + '/worker.js';
+var WORKER_HEART_BEAT = 10*1000;//10s, update memory ,etc
 
 function output(str){
   console.log(str);
@@ -30,15 +30,15 @@ function startWorker(handle){
   */
 }
 
-var exit_timer = null;
-function about_exit(){
-  if(exit_timer) return;
+var exitTimer = null;
+function aboutExit(){
+  if(exitTimer) return;
 
   childs.forEach(function(c){
     c.kill();
   })
-  exit_timer = setTimeout(function(){
-    output("master exit...");
+  exitTimer = setTimeout(function(){
+    output('master exit...');
 
     process.exit(0);
   }, GRACE_EXIT_TIME);
@@ -56,8 +56,8 @@ void main(function(){
   
   startServer();
 
-  output("master is running...");
-  process.on("SIGINT" , about_exit);
-  process.on("SIGTERM" , about_exit);
+  output('master is running...');
+  process.on('SIGINT' , aboutExit);
+  process.on('SIGTERM' , aboutExit);
 
 });

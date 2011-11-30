@@ -1,11 +1,11 @@
-var cp = require("child_process");
-var TCP = process.binding("tcp_wrap").TCP;
+var cp = require('child_process');
+var TCP = process.binding('tcp_wrap').TCP;
 
-const PORT = 3458;
-const WORKER_NUMBER = 5;
-const GRACE_EXIT_TIME = 2000;//2s
-const WORKER_PATH = __dirname + "/tcpWorker.js";
-const WORKER_HEART_BEAT = 10*1000;//10s, update memory ,etc
+var PORT = 3458;
+var WORKER_NUMBER = 5;
+var GRACE_EXIT_TIME = 2000;//2s
+var WORKER_PATH = __dirname + '/tcpWorker.js';
+var WORKER_HEART_BEAT = 10*1000;//10s, update memory ,etc
 
 function main(fn){
   fn();
@@ -16,9 +16,8 @@ function output(str){
 }
 
 var childs = [];
-var last_child_pos = 0;
+var lastChildPos = 0;
 function startWorker(){
-  worker_succ_count = 0;
   for(var i=0; i<WORKER_NUMBER; i++){
     var c  =  cp.fork(WORKER_PATH);
     childs.push(c);
@@ -32,33 +31,33 @@ function startWorker(){
 }
 
 var server = null;
-var exit_timer = null;
-function about_exit(){
-  if(exit_timer) return;
+var exitTimer = null;
+function aboutExit(){
+  if(exitTimer) return;
 
   server.close();
   childs.forEach(function(c){
     c.kill();
   })
-  exit_timer = setTimeout(function(){
-    output("master exit...");
+  exitTimer = setTimeout(function(){
+    output('master exit...');
 
     //log.destroy();
     process.exit(0);
   }, GRACE_EXIT_TIME);
 }
 
-//const ADDRESS = "127.0.0.1";
-const ADDRESS = "0.0.0.0";
-const BACK_LOG = 128;
+//var ADDRESS = '127.0.0.1';
+var ADDRESS = '0.0.0.0';
+var BACK_LOG = 128;
 
 function onconnection(handle){
-  //output("master on connection");
-  last_child_pos++;
-  if(last_child_pos >= WORKER_NUMBER){
-    last_child_pos = 0;
+  //output('master on connection');
+  lastChildPos++;
+  if(lastChildPos >= WORKER_NUMBER){
+    lastChildPos = 0;
   }
-  childs[last_child_pos].send({"handle" : true}, handle);
+  childs[lastChildPos].send({'handle' : true}, handle);
   handle.close();
 }
 
@@ -74,8 +73,8 @@ void main(function(){
   startServer();
   startWorker();
 
-  output("master is running...");
-  process.on("SIGINT" , about_exit);
-  process.on("SIGTERM" , about_exit);
+  output('master is running...');
+  process.on('SIGINT' , aboutExit);
+  process.on('SIGTERM' , aboutExit);
 
 });
