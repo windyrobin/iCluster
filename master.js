@@ -17,17 +17,31 @@ function main(fn){
 
 var childs = [];
 function startWorker(handle){
-  for(var i=0; i<WORKER_NUMBER; i++){
-    var c  =  cp.fork(WORKER_PATH);
-    c.send({"server" : true}, handle);
-    childs.push(c);
-  }
-/*
-  setInterval(function(){
-    inspect(childMng.getStatus());
-    childMng.updateStatus();
-  },WORKER_HEART_BEAT);
-  */
+    var debug = isDebug();
+    for(var i=0; i<WORKER_NUMBER; i++){
+        var c  = null;
+        if (debug){
+            c  =  cp.fork(WORKER_PATH,{execArgv: [ '--debug='+(process.debugPort+i+1) ]});
+        }else{
+            c  =  cp.fork(WORKER_PATH);
+        }
+        c.send({"server" : true}, handle);
+        childs.push(c);
+    }
+    /*
+     setInterval(function(){
+     inspect(childMng.getStatus());
+     childMng.updateStatus();
+     },WORKER_HEART_BEAT);
+     */
+    function isDebug(){
+        for(var i=0;i<process.execArgv.length;i++){
+            if(process.execArgv[i].indexOf("--debug")==0 ){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 var exitTimer = null;
